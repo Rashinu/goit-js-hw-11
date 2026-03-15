@@ -11,10 +11,7 @@ const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loader = document.querySelector('.loader-container');
 
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
+let lightbox;
 
 searchForm.addEventListener('submit', onSearch);
 
@@ -45,7 +42,15 @@ function onSearch(event) {
         });
       } else {
         renderGallery(data.hits);
-        lightbox.refresh();
+        
+        if (!lightbox) {
+          lightbox = new SimpleLightbox('.gallery a', {
+            captionsData: 'alt',
+            captionDelay: 250,
+          });
+        } else {
+          lightbox.refresh();
+        }
       }
     })
     .catch(error => {
